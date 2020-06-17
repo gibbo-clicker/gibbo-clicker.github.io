@@ -147,9 +147,14 @@
 				this.factor = this.users[index].factor
 			},
 			save(){
+				updateUsers()
 				this.users[this.index].money = this.money
 				this.users[this.index].factor = this.factor
 				axios.put('https://extendsclass.com/api/json-storage/bin/debeefb', this.users).then(()=> (console.log("Сохранено")))
+			},
+			updateUsers(){
+				axios.get('https://extendsclass.com/api/json-storage/bin/debeefb')
+				.then(response => (this.users = response.data));
 			}
 		},
 		mounted() {
