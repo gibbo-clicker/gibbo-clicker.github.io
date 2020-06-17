@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gibbo-Clicker</title>
+    <style type="text/css">
+    .box{
+		border-radius: 10px;
+		display: inline-block;
+		font: Arial, sans-serif;
+		margin: 10px;
+		height: 100px;
+		font-size: 60px;
+		padding: 10px 25px 10px 25px;
+		text-align: center;
+		color: rgb(101,51,153);
+		background-color: rgb(118, 186, 254);
+		box-sizing: border-box;
+		border: 5px solid rgb(101,51,153);
+		transition: 0.3s;
+    }
+
+
+
+	.flex-container {
+		display: -ms-flexbox;
+		display: -webkit-flex;
+		display: flex;
+		-webkit-flex-direction: row;
+		-ms-flex-direction: row;
+		flex-direction: row;
+		-webkit-flex-wrap: nowrap;
+		-ms-flex-wrap: nowrap;
+		flex-wrap: nowrap;
+		-webkit-justify-content: center;
+		-ms-flex-pack: center;
+		justify-content: center;
+		-webkit-align-content: center;
+		-ms-flex-line-pack: center;
+		align-content: center;
+		-webkit-align-items: center;
+		-ms-flex-align: start;
+		align-items: center;
+	}
+
+	.flex-item:nth-child(1) {
+		-webkit-order: 1;
+		-ms-flex-order: 1;
+		order: 1;
+		-webkit-flex: 1 2 auto;
+		-ms-flex: 1 2 auto;
+		flex: 1 2 auto;
+		-webkit-align-self: flex-start;
+		-ms-flex-item-align: start;
+		align-self: flex-start;
+		}
+
+	.flex-item:nth-child(2) {
+		-webkit-order: 2;
+		-ms-flex-order: 2;
+		order: 2;
+		-webkit-flex: 1 2 auto;
+		-ms-flex: 1 2 auto;
+		flex: 1 2 auto;
+		-webkit-align-self: flex-end;
+		-ms-flex-item-align: end;
+		align-self: flex-end;
+		}
+
+	.flex-item:nth-child(3) {
+		-webkit-order: 3;
+		-ms-flex-order: 3;
+		order: 3;
+		-webkit-flex: 1 2 auto;
+		-ms-flex: 1 2 auto;
+		flex: 1 2 auto;
+		-webkit-align-self: center;
+		-ms-flex-item-align: center;
+		align-self: center;
+		}
+
+	.flex-item:nth-child(4) {
+		-webkit-order: 4;
+		-ms-flex-order: 4;
+		order: 4;
+		-webkit-flex: 1 2 auto;
+		-ms-flex: 1 2 auto;
+		flex: 1 2 auto;
+		-webkit-align-self: auto;
+		-ms-flex-item-align: auto;
+		align-self: auto;
+		}
+    
+
+    </style>
+</head>
+<body>
+	<div id="app">
+		<div v-if="username == 'NaN'">
+			<h2 class="box" style="background-color:yellow; font-size: 20px; height: 50px;">Найди себя:</h2>
+			<div v-for="(user, index) in users">
+				<div class="box" style="background-color: greenyellow; font-size: 20px; height: 50px;" @click="itsme(index)">{{user.username}}</div>
+			</div>
+		</div>
+		<div v-else>
+			<div class="flex-container">
+				<div class="box flex-item-1" style="font-size: 20px; height: 50px;">+{{factor}} за раз</div>
+				<br>
+				<div @click="updateFactor" class="box flex-item-2" style="background-color: springgreen; font-size: 20px; height: 50px;">Купить: "+{{factor+1}}" (цена: {{factor*100}} G)</div>
+				<br>
+				<div @click="click" class="box flex-item-3" style="background-color: yellow;">{{money}} G</div>
+				<br>
+				<div class="box flex-item-4" style="background-color: tomato; font-size: 20px; height: 50px;">{{username}}</div>
+			</div>
+			<br><br>
+			<div class="box" style="background-color: goldenrod; font-size: 20px; height: 50px; margin: 0 45%;" @click="save">СОХРАНИТЬ</div>
+		</div>
+	</div>
+</body>
+
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://unpkg.com/vue"></script>
+<script type="text/javascript">
+	new Vue({
+		el:'#app',
+		data:{
+			money: 0,
+			factor: 1,
+			username: "NaN",
+			users: [],
+			index: -1
+		},
+		methods: {
+			click(){
+				this.money += this.factor
+			},
+			updateFactor(){
+				if (this.money<this.factor*100){
+					return
+				}
+				this.money -= this.factor*100
+				this.factor += 1
+			},
+			itsme(index){
+				this.index = index
+				this.username = this.users[index].username
+				this.money = this.users[index].money
+				this.factor = this.users[index].factor
+			},
+			save(){
+				this.users[this.index].money = this.money
+				this.users[this.index].factor = this.factor
+				axios.put('https://extendsclass.com/api/json-storage/bin/debeefb', this.users).then(()=> (console.log("Сохранено")))
+			}
+		},
+		mounted() {
+			axios.get('https://extendsclass.com/api/json-storage/bin/debeefb')
+			.then(response => (this.users = response.data));
+		}
+    })
+</script>
+
+</html>
