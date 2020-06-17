@@ -147,13 +147,13 @@
 				this.factor = this.users[index].factor
 			},
 			save(){
-				axios.get('http://188.225.47.187/api/jsonstorage/?id=a17b2204755a43ecad8af7a233326105')
+				axios.get('https://extendsclass.com/api/json-storage/bin/debeefb')
 				.then(response => {
 				this.users = response.data
 				console.log(this.users)
 				this.users[this.index].money = this.money
 				this.users[this.index].factor = this.factor
-				axios.put('http://188.225.47.187/api/jsonstorage/?id=a17b2204755a43ecad8af7a233326105', this.users).then(()=> (console.log("Сохранено")))
+				axios.put('https://extendsclass.com/api/json-storage/bin/debeefb', this.users).then(()=> (console.log("Сохранено")))
 				})
 			}
 		},
