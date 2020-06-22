@@ -127,11 +127,31 @@
 			factor: 1,
 			username: "NaN",
 			users: [],
-			index: -1
+			index: -1,
+			deltaMoney: 0,
+			deltaTime: 1,
+			deltaClicks: 12,
+			Time: 0,
+			clicks: 0
 		},
 		methods: {
+			ban(){
+				this.money -= this.deltaMoney
+				this.deltaMoney = 0
+				window.alert("Куда ты так торопишься?)");
+			},
+			time(){
+				return parseInt(new Date().getTime()/1000)
+			},
 			click(){
 				this.money += this.factor
+				this.deltaMoney += this.factor
+				this.clicks += 1
+				if (this.time()-this.Time>=this.deltaTime) {
+					this.Time = this.time()
+					if (this.clicks>=this.deltaClicks) {this.ban()}
+					this.clicks = 0
+				}
 			},
 			updateFactor(){
 				if (this.money<this.factor*100){
@@ -150,16 +170,23 @@
 				axios.get('https://extendsclass.com/api/json-storage/bin/debeefb')
 				.then(response => {
 				this.users = response.data
-				console.log(this.users)
 				this.users[this.index].money = this.money
 				this.users[this.index].factor = this.factor
-				axios.put('https://extendsclass.com/api/json-storage/bin/debeefb', this.users).then(()=> (console.log("Сохранено")))
+				axios.put('https://extendsclass.com/api/json-storage/bin/debeefb', this.users)
+				.then(()=> {
+					console.log("Сохранено")
+					this.deltaMoney = 0
 				})
+				})
+			
 			}
 		},
 		mounted() {
 			axios.get('https://extendsclass.com/api/json-storage/bin/debeefb')
-			.then(response => (this.users = response.data));
+			.then(response => {
+				this.users = response.data
+				this.Time = this.time()
+			});
 		}
     })
 </script>
