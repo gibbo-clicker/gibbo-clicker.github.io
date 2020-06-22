@@ -167,12 +167,12 @@
 				this.factor = this.users[index].factor
 			},
 			save(){
-				axios.get('https://extendsclass.com/api/json-storage/bin/bbeeeba')
+				axios.get('https://api.npoint.io/f48dd72c49b6cc84d2f4')
 				.then(response => {
 				this.users = response.data
 				this.users[this.index].money = this.money
 				this.users[this.index].factor = this.factor
-				axios.put('https://extendsclass.com/api/json-storage/bin/bbeeeba', this.users)
+				axios.post('https://api.npoint.io/f48dd72c49b6cc84d2f4', this.users)
 				.then(()=> {
 					console.log("Сохранено")
 					this.deltaMoney = 0
@@ -182,7 +182,7 @@
 			}
 		},
 		mounted() {
-			axios.get('https://extendsclass.com/api/json-storage/bin/bbeeeba')
+			axios.get('https://api.npoint.io/f48dd72c49b6cc84d2f4')
 			.then(response => {
 				this.users = response.data
 				this.Time = this.time()
