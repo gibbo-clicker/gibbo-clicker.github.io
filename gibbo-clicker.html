@@ -104,10 +104,10 @@
 				}
 			},
 			updateFactor(){
-				if (this.clicks<this.factor*10){
+				if (this.money<this.factor*10){
 					return
 				}
-				this.clicks -= this.factor*10
+				this.money -= this.factor*10
 				this.factor += 1
 			},
 			itsme(index){
