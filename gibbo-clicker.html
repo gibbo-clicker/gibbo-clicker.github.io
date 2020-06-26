@@ -52,7 +52,7 @@
 			
 			<div class="parent">
 				<div class="div1"><div class="box" style="font-size: 20px; height: 50px;">+{{factor}} за раз</div></div>
-				<div class="div2"><div @click="updateFactor" class="box" style="background-color: springgreen; font-size: 17px; height: 80px;">Купить: "+{{factor+1}}" <br>(цена: {{factor*100}} G)</div></div>
+				<div class="div2"><div @click="updateFactor" class="box" style="background-color: springgreen; font-size: 17px; height: 80px;">Купить: "+{{factor+1}}" <br>(цена: {{factor*10}} G)</div></div>
 				<div class="div3"><div @click="click" class="box" style="background-color: yellow;">{{clicks}}</div></div>
 				<div class="div4"><div class="box" style="background-color: tomato; font-size: 20px; height: 50px;">{{username}}</div></div>
 				<div class="div5"><div style="font-size: 20px; height:30px; width: 300px;outline: 5px solid darkblue;">
@@ -104,10 +104,10 @@
 				}
 			},
 			updateFactor(){
-				if (this.clicks<this.factor*100){
+				if (this.clicks<this.factor*10){
 					return
 				}
-				this.clicks -= this.factor*100
+				this.clicks -= this.factor*10
 				this.factor += 1
 			},
 			itsme(index){
